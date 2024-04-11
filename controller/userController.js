@@ -53,6 +53,7 @@ const getUsers = asyncHandler(async(req,res) => {
         const users = await User.find();
         res.json({
             success:true,
+            msg: "Users Fetched",
             users
         })
     } catch (error) {
@@ -68,8 +69,15 @@ const getUser = asyncHandler(async(req,res) => {
     try {
         const {id} = req.params;
         const user = await User.findById(id)
+        if(!user) {
+            res.json({
+                success: false,
+                msg: "user not found",
+            })
+        }
         res.json({
             success: true,
+            msg: "user fetched",
             user
         })
     } catch (error) {
@@ -79,7 +87,22 @@ const getUser = asyncHandler(async(req,res) => {
 
 
 
+//delete a user
+
+const deleteUser = asyncHandler(async(req,res) => {
+   try {
+    const {id} = req.params;
+    const deleteuser = await User.findByIdAndDelete(id);
+    res.json({
+        success: true,
+        msg: "User deleted"
+    })
+   } catch (error) {
+    throw new Error(error)
+   }
+})
+
 
  
 
-module.exports = {createUser,loginUser, getUsers,getUser};
+module.exports = {createUser,loginUser, getUsers,getUser, deleteUser};
