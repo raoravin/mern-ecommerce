@@ -71,7 +71,7 @@ const handleRefreshToken =  asyncHandler(async(req,res) => {
      }
      const accessToken = generateToken(user?.id);
      res.json({accessToken})
-});
+}); 
 
 })
 
