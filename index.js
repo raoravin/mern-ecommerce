@@ -5,6 +5,7 @@ const app = express();
 const dotenv = require("dotenv").config();
 const PORT = process.env.PORT || 5000;
 const authRouter = require("./routes/userRoute");
+const productRouter = require("./routes/productRoute");
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 const cookieParser = require("cookie-parser");
 const generateRefreshToken = require("./config/refreshToken");
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/api/user",authRouter);
+app.use("/api/product",productRouter);
 
 
 

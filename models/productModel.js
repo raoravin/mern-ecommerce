@@ -13,7 +13,7 @@ var productSchema = new mongoose.Schema({
         unique:true,
         lowercase:true
     },
-    decription:{
+    description:{
         type:String,
         required:true,
     },
@@ -29,7 +29,11 @@ var productSchema = new mongoose.Schema({
         type:String,
         enum: ["Apple", "Samsung", "Lenovo"]
     },
-    quatity:Number,
+    quantity:{
+        type:Number,
+        required:true,
+        default:0
+    },
     images:{
         type: Array,
     },
