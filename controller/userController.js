@@ -6,26 +6,38 @@ const generateRefreshToken = require("../config/refreshToken");
 const jwt = require("jsonwebtoken")
 
 
-//Create a user
 
+// Create a new user
 const createUser = asyncHandler(async (req, res) => {
-  const email = req.body.email;
-  const findUser = await User.findOne({ email });
-  if (!findUser) {
-    const newUser = await User.create(req.body);
-    res.json({
-      msg: "User created successfully",
-      success: true,
-      newUser,
-    });
-  } else {
-    throw new Error("User Already Exists");
+  try {
+    const email = req.body.email;
+    const findUser = await User.findOne({ email });
+
+    // Check if user with the same email already exists
+    if (!findUser) {
+      const newUser = await User.create(req.body);
+      res.status(201).json({
+        success: true,
+        message: "User created successfully",
+        newUser,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        error: "User already exists",
+      });
+    }
+  } catch (error) {
+    throw new Error(error); 
   }
 });
+
+
 
 //Login user
 
 const loginUser = asyncHandler(async (req, res) => {
+ try {
   const { email, password } = req.body;
   //check if user exists or not
   const findUser = await User.findOne({ email });
@@ -50,8 +62,14 @@ const loginUser = asyncHandler(async (req, res) => {
       token: generateToken(findUser?._id),
     });
   } else {
-    throw new Error("Credential Invalid");
+    res.status(401).json({
+      success: false,
+      error: "Invalid credentials",
+    });
   }
+ } catch (error) {
+  throw new Error(error);
+ }
 });
 
 

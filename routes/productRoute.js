@@ -3,7 +3,7 @@ const { createProduct, getProduct, getProducts, updateProduct } = require("../co
 const router = express.Router();
 
 
-router.post("/create",createProduct);
+router.post("/",createProduct);
 router.get("/:id", getProduct);
 router.put("/:id", updateProduct)
 router.get("/", getProducts)
